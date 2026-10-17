@@ -1,0 +1,29 @@
+services:
+  - type: worker
+    name: movie-subscription-posting-bot
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: ADMIN_IDS
+        sync: false
+      - key: CHANNEL_ID
+        sync: false
+      - key: POSTER_URL
+        sync: false
+      - key: CHANNEL_TITLE
+        value: MOVIE HUB
+      - key: POST_TITLE
+        value: ALL YOUR ENTERTAINMENT IN ONE PLACE
+      - key: MOVIE_URL
+        sync: false
+      - key: QUALITY_URL
+        sync: false
+      - key: PREMIUM_URL
+        sync: false
+      - key: START_BOT_URL
+        sync: false
+      - key: POST_CAPTION
+        sync: false
