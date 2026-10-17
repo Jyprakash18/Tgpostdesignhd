@@ -268,7 +268,19 @@ async def post(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "❌ Posting failed. Check bot admin permission, CHANNEL_ID, poster URL and button links.\n"
             f"Error: {exc}"
         )
+web_app = Flask(__name__)
 
+@web_app.route("/")
+def home():
+    return "Movie Posting Bot is running!", 200
+
+@web_app.route("/health")
+def health():
+    return {"status": "ok"}, 200
+
+def run_web():
+    port = int(os.environ.get("PORT", "10000"))
+    web_app.run(host="0.0.0.0", port=port, use_reloader=False)
 def main():
     app = Application.builder().token(BOT_TOKEN).build()
     app.add_handler(CommandHandler("start", start))
@@ -282,8 +294,8 @@ def main():
     app.add_handler(CommandHandler("preview", preview))
     app.add_handler(CommandHandler("post", post))
     logger.info("Movie posting bot is starting.")
-    app.run_polling(allowed_updates=Update.ALL_TYPES)
-
+Thread(target=run_web, daemon=True).start()
+app.run_polling(allowed_updates=Update.ALL_TYPES)
 if __name__ == "__main__":
     asyncio.set_event_loop(asyncio.new_event_loop())
     main()
